@@ -1,0 +1,38 @@
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.display {
+    height: 30px;
+    border: solid gray 1px; 
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.digits {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 120px;
+}
+
+.operators {
+    display: flex;
+    flex-direction: column;
+}
+
+button {
+    width: 40px;
+    height: 40px;
+}
