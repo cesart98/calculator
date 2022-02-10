@@ -26,12 +26,20 @@ function handleEvent(e) {
         let argumentTwo = Number(currentInput.join(''));
         if (mathOperator == 'add') {
             display.textContent = (add(argumentOne, argumentTwo));
+            currentInput.splice(0);
+            argumentArray.splice(0);
         } else if (mathOperator == 'subtract') {
             display.textContent = (subtract(argumentOne, argumentTwo));
+            currentInput.splice(0);
+            argumentArray.splice(0);
         } else if (mathOperator == 'multiply') {
             display.textContent = (multiply(argumentOne, argumentTwo));
+            currentInput.splice(0);
+            argumentArray.splice(0);
         } else if (mathOperator == 'divide') {
             display.textContent = (divide(argumentOne, argumentTwo));
+            currentInput.splice(0);
+            argumentArray.splice(0);
         }
     }
 
