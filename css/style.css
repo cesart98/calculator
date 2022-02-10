@@ -10,8 +10,12 @@ body {
 }
 
 .display {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    padding: 3px;
     height: 30px;
-    border: solid gray 1px; 
+    border: solid gray 1px;
 }
 
 .buttons {
