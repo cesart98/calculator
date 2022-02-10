@@ -21,35 +21,38 @@ function divide(valueOne, valueTwo) {
 function handleEvent(e) {
     let buttonType = e.target.parentElement.className;
 
-    if (buttonType == 'equals' && currentInput[0] && operation[0]) {
-        let argumentOne = operation[0];
+    if (buttonType == 'equals' && currentInput[0] && argumentArray[0]) {
+        let argumentOne = argumentArray[0];
         let argumentTwo = Number(currentInput.join(''));
         if (mathOperator == 'add') {
-            console.log(add(argumentOne, argumentTwo));
+            display.textContent = (add(argumentOne, argumentTwo));
         } else if (mathOperator == 'subtract') {
-            console.log(subtract(argumentOne, argumentTwo));
+            display.textContent = (subtract(argumentOne, argumentTwo));
         } else if (mathOperator == 'multiply') {
-            console.log(multiply(argumentOne, argumentTwo));
+            display.textContent = (multiply(argumentOne, argumentTwo));
         } else if (mathOperator == 'divide') {
-            console.log(divide(argumentOne, argumentTwo));
+            display.textContent = (divide(argumentOne, argumentTwo));
         }
     }
 
     if (buttonType == 'digits') {
         let buttonValue = e.target.innerHTML;
         currentInput.push(buttonValue);
+        display.textContent += buttonValue;
     }
 
     if (buttonType == 'operators' && currentInput[0]) { // true if user has entered numbers
         let newArgument = Number(currentInput.join(''));
-        operation.push(newArgument);
+        argumentArray.push(newArgument);
         currentInput.splice(0); // resets input array
         mathOperator = e.target.className;
+        display.textContent = '';
     }
 
     if (buttonType == 'clear') {
         currentInput.splice(0);
-        operation.splice(0);
+        argumentArray.splice(0);
+        display.textContent = '';
     }
 }
 
@@ -62,4 +65,4 @@ let display = document.querySelector(".display")
 
 
 let currentInput = [];
-let operation = [];
+let argumentArray = [];
