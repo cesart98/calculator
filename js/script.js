@@ -19,15 +19,37 @@ function divide(valueOne, valueTwo) {
 }
 
 function handleEvent(e) {
-    function assignInputOne() {
-        inputOne = Number(arrayOne.join(''));
+    let buttonType = e.target.parentElement.className;
+
+    if (buttonType == 'equals' && currentInput[0] && operation[0]) {
+        let argumentOne = operation[0];
+        let argumentTwo = Number(currentInput.join(''));
+        if (mathOperator == 'add') {
+            console.log(add(argumentOne, argumentTwo));
+        } else if (mathOperator == 'subtract') {
+            console.log(subtract(argumentOne, argumentTwo));
+        } else if (mathOperator == 'multiply') {
+            console.log(multiply(argumentOne, argumentTwo));
+        } else if (mathOperator == 'divide') {
+            console.log(divide(argumentOne, argumentTwo));
+        }
     }
 
-    let btnValue = e.target.innerHTML;
-    if (!isNaN(btnValue)) {
-        arrayOne.push(btnValue);
-    } else if (isNaN(btnValue)) {
-        assignInputOne();
+    if (buttonType == 'digits') {
+        let buttonValue = e.target.innerHTML;
+        currentInput.push(buttonValue);
+    }
+
+    if (buttonType == 'operators' && currentInput[0]) { // true if user has entered numbers
+        let newArgument = Number(currentInput.join(''));
+        operation.push(newArgument);
+        currentInput.splice(0); // resets input array
+        mathOperator = e.target.className;
+    }
+
+    if (buttonType == 'clear') {
+        currentInput.splice(0);
+        operation.splice(0);
     }
 }
 
@@ -38,5 +60,6 @@ buttons.forEach((button) => {
 
 let display = document.querySelector(".display")
 
-let arrayOne = [];
-let arrayTwo = [];
+
+let currentInput = [];
+let operation = [];
