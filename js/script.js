@@ -18,7 +18,25 @@ function divide(valueOne, valueTwo) {
     return quotient;
 }
 
-let inputOne = 3;
-let inputTwo = 5;
+function handleEvent(e) {
+    function assignInputOne() {
+        inputOne = Number(arrayOne.join(''));
+    }
 
-console.log(divide(inputOne, inputTwo));
+    let btnValue = e.target.innerHTML;
+    if (!isNaN(btnValue)) {
+        arrayOne.push(btnValue);
+    } else if (isNaN(btnValue)) {
+        assignInputOne();
+    }
+}
+
+let buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+    button.addEventListener("click", handleEvent)
+});
+
+let display = document.querySelector(".display")
+
+let arrayOne = [];
+let arrayTwo = [];
