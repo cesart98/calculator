@@ -19,9 +19,23 @@ function divide(valueOne, valueTwo) {
 }
 
 function handleEvent(e) {
-    let buttonType = e.target.parentElement.className;
+    function setButtonClass () {
+        buttonClass = e.target.parentElement.className;
+    }
+    function checkForInput () {
+        if (currentInput[0]) {
+            return true;
+        }
+    }
+    function checkForArgument () {
+        if (argumentArray[0])
+            return true;
+    }
 
-    if (buttonType == 'equals' && currentInput[0] && argumentArray[0]) {
+    let buttonClass;
+    setButtonClass();
+
+    if (buttonClass == 'equals' && currentInput[0] && argumentArray[0]) {
         let argumentOne = argumentArray[0];
         let argumentTwo = Number(currentInput.join(''));
         if (mathOperator == 'add') {
@@ -43,13 +57,13 @@ function handleEvent(e) {
         }
     }
 
-    if (buttonType == 'digits') {
+    if (buttonClass == 'digits') {
         let buttonValue = e.target.innerHTML;
         currentInput.push(buttonValue);
         display.textContent += buttonValue;
     }
 
-    if (buttonType == 'operators' && currentInput[0]) { // true if user has entered numbers
+    if (buttonClass == 'operators' && currentInput[0]) { // true if user has entered numbers
         let newArgument = Number(currentInput.join(''));
         argumentArray.push(newArgument);
         currentInput.splice(0); // resets input array
@@ -57,7 +71,7 @@ function handleEvent(e) {
         display.textContent = '';
     }
 
-    if (buttonType == 'clear') {
+    if (buttonClass == 'clear') {
         currentInput.splice(0);
         argumentArray.splice(0);
         display.textContent = '';
