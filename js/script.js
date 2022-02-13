@@ -19,63 +19,113 @@ function divide(valueOne, valueTwo) {
 }
 
 function handleEvent(e) {
-    function setButtonClass () {
-        buttonClass = e.target.parentElement.className;
+
+    function getButtonClass () {
+        return e.target.parentElement.className;
     }
+
     function checkForInput () {
-        if (currentInput[0]) {
+        if (inputArray[0]) {
             return true;
+        } else {
+            return false;
         }
     }
+
     function checkForArgument () {
-        if (argumentArray[0])
+        if (argumentArray[0]) {
             return true;
+        } else {
+            return false;
+        }
     }
 
-    let buttonClass;
-    setButtonClass();
+    function getArgumentOne () {
+        return argumentArray[0];
+    }
 
-    if (buttonClass == 'equals' && currentInput[0] && argumentArray[0]) {
-        let argumentOne = argumentArray[0];
-        let argumentTwo = Number(currentInput.join(''));
-        if (mathOperator == 'add') {
-            display.textContent = (add(argumentOne, argumentTwo));
-            currentInput.splice(0);
-            argumentArray.splice(0);
-        } else if (mathOperator == 'subtract') {
-            display.textContent = (subtract(argumentOne, argumentTwo));
-            currentInput.splice(0);
-            argumentArray.splice(0);
-        } else if (mathOperator == 'multiply') {
-            display.textContent = (multiply(argumentOne, argumentTwo));
-            currentInput.splice(0);
-            argumentArray.splice(0);
-        } else if (mathOperator == 'divide') {
-            display.textContent = (divide(argumentOne, argumentTwo));
-            currentInput.splice(0);
-            argumentArray.splice(0);
-        }
+    function getInputValue () {
+        return Number(inputArray.join(''));
+    }
+
+    function setOperator () {
+        return e.target.className;
+    }
+
+    function clearArgumentArray () {
+        return argumentArray.splice(0);
+    }
+    
+    function clearInputArray () {
+        return inputArray.splice(0);
+    }
+
+    function operate () {
+        argumentOne = getArgumentOne();
+        argumentTwo = getInputValue();
+        switch(operator) {
+            case 'add':
+                result = add(argumentOne, argumentTwo);
+                display.textContent = result; // display results
+                argumentArray[0] = result; // set result for next input
+                break;
+            case 'subtract':
+                result = subtract(argumentOne, argumentTwo);
+                display.textContent = result; // display results
+                argumentArray[0] = result; // set result for next input
+                break;
+            case 'multiply':
+                result = multiply(argumentOne, argumentTwo);
+                display.textContent = result; // display results
+                argumentArray[0] = result; // set result for next input
+                break;
+            case 'divide':
+                result = divide(argumentOne, argumentTwo);
+                display.textContent = result; // display results
+                argumentArray[0] = result; // set result for next input
+                break;
+            default:
+                display.textContent = "Error";
+        } 
+    }
+
+    let buttonClass = getButtonClass();
+    let inputExists = checkForInput();
+    let argumentExists = checkForArgument();
+    
+    if (buttonClass == 'equals' && inputExists && argumentExists) {
+        operate();
+        clearInputArray();
+        operator = ''; // reset operator
     }
 
     if (buttonClass == 'digits') {
-        let buttonValue = e.target.innerHTML;
-        currentInput.push(buttonValue);
-        display.textContent += buttonValue;
+        buttonValue = e.target.innerHTML;
+        inputArray.push(buttonValue);
+        display.textContent = inputArray.join('');
     }
 
-    if (buttonClass == 'operators' && currentInput[0]) { // true if user has entered numbers
-        let newArgument = Number(currentInput.join(''));
+    if (buttonClass == 'operators' && inputExists && argumentExists) {
+        operate();
+        operator = setOperator();
+        clearInputArray();
+    } else if (buttonClass == 'operators' && inputExists && !argumentExists) {
+        let newArgument = getInputValue();
         argumentArray.push(newArgument);
-        currentInput.splice(0); // resets input array
-        mathOperator = e.target.className;
+        clearInputArray();
+        operator = setOperator();
         display.textContent = '';
+    } else if (buttonClass == 'operators' && !inputExists && argumentExists) {
+        operator = setOperator();
     }
 
     if (buttonClass == 'clear') {
-        currentInput.splice(0);
-        argumentArray.splice(0);
+        clearInputArray();
+        clearArgumentArray();
         display.textContent = '';
     }
+
+    
 }
 
 let buttons = document.querySelectorAll("button");
@@ -85,6 +135,6 @@ buttons.forEach((button) => {
 
 let display = document.querySelector(".display")
 
-
-let currentInput = [];
+let operator;
+let inputArray = [];
 let argumentArray = [];
