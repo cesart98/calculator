@@ -93,39 +93,42 @@ function handleEvent(e) {
     let inputExists = checkForInput();
     let argumentExists = checkForArgument();
     
-    if (buttonClass == 'equals' && inputExists && argumentExists) {
-        operate();
-        clearInputArray();
-        operator = ''; // reset operator
-    }
-
-    if (buttonClass == 'digits') {
-        buttonValue = e.target.innerHTML;
-        inputArray.push(buttonValue);
-        display.textContent = inputArray.join('');
-    }
-
-    if (buttonClass == 'operators' && inputExists && argumentExists) {
-        operate();
-        operator = setOperator();
-        clearInputArray();
-    } else if (buttonClass == 'operators' && inputExists && !argumentExists) {
-        let newArgument = getInputValue();
-        argumentArray.push(newArgument);
-        clearInputArray();
-        operator = setOperator();
-        display.textContent = '';
-    } else if (buttonClass == 'operators' && !inputExists && argumentExists) {
-        operator = setOperator();
-    }
-
-    if (buttonClass == 'clear') {
-        clearInputArray();
-        clearArgumentArray();
-        display.textContent = '';
-    }
-
-    
+    switch(buttonClass) {
+        case 'equals':
+            if (inputExists && argumentExists) {
+                operate();
+                clearInputArray();
+                operator = ''; // reset operator
+            }
+            break;
+        case 'digits':
+            buttonValue = e.target.innerHTML;
+            inputArray.push(buttonValue);
+            display.textContent = inputArray.join('');
+            break;
+        case 'operators':
+            if (inputExists && argumentExists) {
+                operate();
+                operator = setOperator();
+                clearInputArray();
+            } else if (inputExists && !argumentExists) {
+                let newArgument = getInputValue();
+                argumentArray.push(newArgument);
+                clearInputArray();
+                operator = setOperator();
+                display.textContent = '';
+            } else if (!inputExists && argumentExists) {
+                operator = setOperator();
+            }
+            break;
+        case 'clear':
+            clearInputArray();
+            clearArgumentArray();
+            display.textContent = '';
+            break;
+        default:
+            display.textContent = "Error";
+    }  
 }
 
 let buttons = document.querySelectorAll("button");
