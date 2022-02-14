@@ -18,7 +18,7 @@ body {
     border: solid gray 1px;
 }
 
-.buttons {
+.button-interface {
     display: flex;
     flex-direction: row;
     gap: 10px;
