@@ -1,5 +1,4 @@
 * {
-    border: solid red 1px;
     font-family: sans-serif;
     font-weight: bold;
     font-size: 15px;
@@ -16,6 +15,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 10px;
+    color: white;
     background-color: black;
     gap: 15px;
 }
@@ -38,7 +38,7 @@ body {
 .interface-left {
     display: flex;
     flex-direction: column;
-    width: 132px;
+    width: 130px;
     gap: 5px;
 }
 
