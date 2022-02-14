@@ -1,5 +1,8 @@
 * {
     border: solid red 1px;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 15px;
 }
 
 body {
@@ -29,19 +32,48 @@ body {
 .button-interface {
     display: flex;
     flex-direction: row;
-    gap: 10px;
+    gap: 5px;
+}
+
+.interface-left {
+    display: flex;
+    flex-direction: column;
+    width: 132px;
+    gap: 5px;
+}
+
+.clear button {
+    background-color: #bdbdbf;
 }
 
 .digits {
     display: inline-flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 120px;
+    gap: 5px;
+}
+
+.digits button {
+    background-color: #959595;
+    color: white;
+}
+
+.interface-right {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .operators {
     display: flex;
     flex-direction: column;
+    gap: 5px;
+}
+
+.operators button,
+.equals button {
+    background-color: #ffab00;
+    color: white;
 }
 
 button {
