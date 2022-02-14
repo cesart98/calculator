@@ -17,16 +17,16 @@ body {
     padding: 10px;
     color: white;
     background-color: black;
-    gap: 15px;
+    gap: 5px;
+    border-radius: 3%;
 }
 
 .display {
     display: flex;
     justify-content: right;
     align-items: center;
-    padding: 3px;
-    height: 30px;
-    border: solid gray 1px;
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .button-interface {
