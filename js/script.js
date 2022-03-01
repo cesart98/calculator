@@ -1,22 +1,12 @@
-function add(valueOne, valueTwo) {
-    let sum = valueOne + valueTwo;
-    return sum;
-}
-
-function subtract(valueOne, valueTwo) {
-    let difference = valueOne - valueTwo;
-    return difference;
-}
-
-function multiply(valueOne, valueTwo) {
-    let product = valueOne * valueTwo;
-    return product;
-}
-
-function divide(valueOne, valueTwo) {
-    let quotient = valueOne / valueTwo;
-    return quotient;
-}
+const calculator = (() => {
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+    const mul = (a, b) => a * b;
+    const div = (a, b) => a / b;
+    return {
+        add, sub, mul, div,
+    };
+})();
 
 function handleEvent(e) {
 
@@ -65,22 +55,22 @@ function handleEvent(e) {
         argumentTwo = getInputValue();
         switch(operator) {
             case 'add':
-                result = add(argumentOne, argumentTwo);
+                result = calculator.add(argumentOne, argumentTwo);
                 display.textContent = result; // display results
                 argumentArray[0] = result; // set result for next input
                 break;
             case 'subtract':
-                result = subtract(argumentOne, argumentTwo);
+                result = calculator.sub(argumentOne, argumentTwo);
                 display.textContent = result; // display results
                 argumentArray[0] = result; // set result for next input
                 break;
             case 'multiply':
-                result = multiply(argumentOne, argumentTwo);
+                result = calculator.mul(argumentOne, argumentTwo);
                 display.textContent = result; // display results
                 argumentArray[0] = result; // set result for next input
                 break;
             case 'divide':
-                result = divide(argumentOne, argumentTwo);
+                result = calculator.div(argumentOne, argumentTwo);
                 display.textContent = result; // display results
                 argumentArray[0] = result; // set result for next input
                 break;
