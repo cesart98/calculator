@@ -8,7 +8,7 @@ const calculator = (() => {
     };
 })();
 
-const valueOne = (() => {
+const argument = (() => {
     let argument = [];
     const get = () => argument[0];
     const set = (value) => argument.push(value);
@@ -20,55 +20,61 @@ const valueOne = (() => {
     };
 })();
 
+const input = (() => {
+    let input = [];
+    const get = () => Number(input.join(''));
+    const set = (value) => input.push(value);
+    const clr = () => input.splice(0);
+    const exists = () => input[0] ? true : false;
+    const replace = (value) => argument[0] = value;
+    return {
+        get, set, clr, exists, replace
+    };
+})();
+
+const display = (() => {
+    let display = document.querySelector(".display");
+    const err = () => display.textContent = 'Error';
+    const set = (value) => display.textContent = value;
+    const clr = () => display.textContent = '';
+    return {
+        err, set, clr
+    };
+})();
+
 function handleEvent(e) {
 
     function getButtonClass () {
         return e.target.parentElement.className;
     }
 
-    function checkForInput () {
-        if (inputArray[0]) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    function getInputValue () {
-        return Number(inputArray.join(''));
-    }
-
     function setOperator () {
         return e.target.className;
     }
-    
-    function clearInputArray () {
-        return inputArray.splice(0);
-    }
 
     function operate () {
-        argumentOne = valueOne.get();
-        argumentTwo = getInputValue();
+        valueOne = argument.get();
+        valueTwo = input.get();
         switch(operator) {
             case 'add':
-                result = calculator.add(argumentOne, argumentTwo);
-                display.textContent = result; // display results
-                valueOne.replace(result); // set result for next input
+                result = calculator.add(valueOne, valueTwo);
+                display.set(result);
+                argument.replace(result); // set result for next input
                 break;
             case 'subtract':
-                result = calculator.sub(argumentOne, argumentTwo);
-                display.textContent = result; // display results
-                valueOne.replace(result); // set result for next input
+                result = calculator.sub(valueOne, valueTwo);
+                display.set(result);
+                argument.replace(result); // set result for next input
                 break;
             case 'multiply':
-                result = calculator.mul(argumentOne, argumentTwo);
-                display.textContent = result; // display results
-                valueOne.replace(result); // set result for next input
+                result = calculator.mul(valueOne, valueTwo);
+                display.set(result);
+                argument.replace(result); // set result for next input
                 break;
             case 'divide':
-                result = calculator.div(argumentOne, argumentTwo);
-                display.textContent = result; // display results
-                valueOne.replace(result); // set result for next input
+                result = calculator.div(valueOne, valueTwo);
+                display.set(result);
+                argument.replace(result); // set result for next input
                 break;
             default:
                 display.textContent = "Error";
@@ -76,39 +82,38 @@ function handleEvent(e) {
     }
 
     let buttonClass = getButtonClass();
-    let inputExists = checkForInput();
     
     switch(buttonClass) {
         case 'equals':
-            if (inputExists && valueOne.exists()) {
+            if (input.exists() && argument.exists()) {
                 operate();
-                clearInputArray();
+                input.clr();
                 operator = ''; // reset operator
             }
             break;
         case 'digits':
             buttonValue = e.target.innerHTML;
-            inputArray.push(buttonValue);
-            display.textContent = inputArray.join('');
+            input.set(buttonValue);
+            display.set = input.get();
             break;
         case 'operators':
-            if (inputExists && valueOne.exists()) {
+            if (input.exists() && argument.exists()) {
                 operate();
                 operator = setOperator();
-                clearInputArray();
-            } else if (inputExists && !valueOne.exists()) {
-                let newArgument = getInputValue();
-                valueOne.set(newArgument);
-                clearInputArray();
+                input.clr();
+            } else if (input.exists() && !argument.exists()) {
+                let newArgument = input.get();
+                argument.set(newArgument);
+                input.clr();
                 operator = setOperator();
-                display.textContent = '';
-            } else if (!inputExists && valueOne.exists()) {
+                display.clr = '';
+            } else if (!input.exists() && argument.exists()) {
                 operator = setOperator();
             }
             break;
         case 'clear':
-            clearInputArray();
-            valueOne.clr();
+            input.clr();
+            argument.clr();
             display.textContent = '';
             break;
         default:
@@ -121,7 +126,5 @@ buttons.forEach((button) => {
     button.addEventListener("click", handleEvent)
 });
 
-let display = document.querySelector(".display")
 
 let operator;
-let inputArray = [];
