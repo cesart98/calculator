@@ -5,9 +5,7 @@ const Template = () => {
     const clr = () => array.splice(0);
     const exists = () => array[0] ? true : false;
     const replace = (value) => array[0] = value;
-    return {
-        get, set, clr, exists, replace
-    };
+    return { get, set, clr, exists, replace };
 }
 
 const display = (() => {
@@ -15,9 +13,7 @@ const display = (() => {
     const err = () => display.textContent = 'Error';
     const set = (value) => display.textContent = value;
     const clr = () => display.textContent = '';
-    return {
-        err, set, clr
-    };
+    return { err, set, clr };
 })();
 
 const calculator = (() => {
@@ -25,9 +21,7 @@ const calculator = (() => {
     const sub = (a, b) => a - b;
     const mul = (a, b) => a * b;
     const div = (a, b) => a / b;
-    return {
-        add, sub, mul, div,
-    };
+    return { add, sub, mul, div };
 })();
 
 function operate () {
@@ -106,9 +100,7 @@ const input = (() => {
     const clr = () => input.splice(0);
     const exists = () => input[0] ? true : false;
     const replace = (value) => argument[0] = value;
-    return {
-        get, set, clr, exists, replace
-    };
+    return { get, set, clr, exists, replace };
 })();
 
 const button = (() => {
@@ -118,7 +110,5 @@ const button = (() => {
     });
     const type = (e) => e.target.parentElement.className;
     const value = (e) => e.target.innerHTML;;
-    return {
-        type, value
-    }
+    return { type, value }
 })();
