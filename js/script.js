@@ -32,6 +32,30 @@ const input = (() => {
     };
 })();
 
+const operator = (() => {
+    let operator = [];
+    const get = () => operator[0];
+    const set = (value) => operator.push(value);
+    const clr = () => operator.splice(0);
+    const exists = () => operator[0] ? true : false;
+    const replace = (value) => operator[0] = value;
+    return {
+        get, set, clr, exists, replace
+    };
+})();
+
+const button = (() => {
+    let button = document.querySelectorAll("button");
+    button.forEach((button) => {
+        button.addEventListener("click", handleEvent)
+    });
+    const type = (e) => e.target.parentElement.className;
+    const value = (e) => e.target.innerHTML;;
+    return {
+        type, value
+    }
+})();
+
 const display = (() => {
     let display = document.querySelector(".display");
     const err = () => display.textContent = 'Error';
@@ -42,89 +66,70 @@ const display = (() => {
     };
 })();
 
-function handleEvent(e) {
+function operate () {
+    valueOne = argument.get();
+    valueTwo = input.get();
+    switch(operator.get()) {
+        case 'add':
+            result = calculator.add(valueOne, valueTwo);
+            display.set(result);
+            argument.replace(result);
+            break;
+        case 'subtract':
+            result = calculator.sub(valueOne, valueTwo);
+            display.set(result);
+            argument.replace(result);
+            break;
+        case 'multiply':
+            result = calculator.mul(valueOne, valueTwo);
+            display.set(result);
+            argument.replace(result);
+            break;
+        case 'divide':
+            result = calculator.div(valueOne, valueTwo);
+            display.set(result);
+            argument.replace(result);
+            break;
+        default:
+            display.err();
+    } 
+}
 
-    function getButtonClass () {
-        return e.target.parentElement.className;
-    }
+function handleEvent(event) {
 
-    function setOperator () {
-        return e.target.className;
-    }
-
-    function operate () {
-        valueOne = argument.get();
-        valueTwo = input.get();
-        switch(operator) {
-            case 'add':
-                result = calculator.add(valueOne, valueTwo);
-                display.set(result);
-                argument.replace(result); // set result for next input
-                break;
-            case 'subtract':
-                result = calculator.sub(valueOne, valueTwo);
-                display.set(result);
-                argument.replace(result); // set result for next input
-                break;
-            case 'multiply':
-                result = calculator.mul(valueOne, valueTwo);
-                display.set(result);
-                argument.replace(result); // set result for next input
-                break;
-            case 'divide':
-                result = calculator.div(valueOne, valueTwo);
-                display.set(result);
-                argument.replace(result); // set result for next input
-                break;
-            default:
-                display.textContent = "Error";
-        } 
-    }
-
-    let buttonClass = getButtonClass();
-    
-    switch(buttonClass) {
+    switch(button.type(event)) {
         case 'equals':
             if (input.exists() && argument.exists()) {
                 operate();
                 input.clr();
-                operator = ''; // reset operator
+                operator.clr();
             }
             break;
         case 'digits':
-            buttonValue = e.target.innerHTML;
-            input.set(buttonValue);
-            display.set = input.get();
+            input.set(button.value(event));
+            display.set(input.get());
             break;
         case 'operators':
             if (input.exists() && argument.exists()) {
                 operate();
-                operator = setOperator();
+                operator.set(event.target.className);
                 input.clr();
             } else if (input.exists() && !argument.exists()) {
                 let newArgument = input.get();
                 argument.set(newArgument);
                 input.clr();
-                operator = setOperator();
-                display.clr = '';
+                operator.set(event.target.className);
+                display.clr();
             } else if (!input.exists() && argument.exists()) {
-                operator = setOperator();
+                operator.set(event.target.className);
             }
             break;
         case 'clear':
             input.clr();
             argument.clr();
-            display.textContent = '';
+            display.clr();
             break;
         default:
-            display.textContent = "Error";
+            display.err();
     }  
 }
-
-let buttons = document.querySelectorAll("button");
-buttons.forEach((button) => {
-    button.addEventListener("click", handleEvent)
-});
-
-
-let operator;
