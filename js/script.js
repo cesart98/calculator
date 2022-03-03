@@ -1,60 +1,14 @@
-const calculator = (() => {
-    const add = (a, b) => a + b;
-    const sub = (a, b) => a - b;
-    const mul = (a, b) => a * b;
-    const div = (a, b) => a / b;
-    return {
-        add, sub, mul, div,
-    };
-})();
-
-const argument = (() => {
-    let argument = [];
-    const get = () => argument[0];
-    const set = (value) => argument.push(value);
-    const clr = () => argument.splice(0);
-    const exists = () => argument[0] ? true : false;
-    const replace = (value) => argument[0] = value;
+const Template = () => {
+    let array = [];
+    const get = () => array[0];
+    const set = (value) => array.push(value);
+    const clr = () => array.splice(0);
+    const exists = () => array[0] ? true : false;
+    const replace = (value) => array[0] = value;
     return {
         get, set, clr, exists, replace
     };
-})();
-
-const input = (() => {
-    let input = [];
-    const get = () => Number(input.join(''));
-    const set = (value) => input.push(value);
-    const clr = () => input.splice(0);
-    const exists = () => input[0] ? true : false;
-    const replace = (value) => argument[0] = value;
-    return {
-        get, set, clr, exists, replace
-    };
-})();
-
-const operator = (() => {
-    let operator = [];
-    const get = () => operator[0];
-    const set = (value) => operator.push(value);
-    const clr = () => operator.splice(0);
-    const exists = () => operator[0] ? true : false;
-    const replace = (value) => operator[0] = value;
-    return {
-        get, set, clr, exists, replace
-    };
-})();
-
-const button = (() => {
-    let button = document.querySelectorAll("button");
-    button.forEach((button) => {
-        button.addEventListener("click", handleEvent)
-    });
-    const type = (e) => e.target.parentElement.className;
-    const value = (e) => e.target.innerHTML;;
-    return {
-        type, value
-    }
-})();
+}
 
 const display = (() => {
     let display = document.querySelector(".display");
@@ -66,37 +20,40 @@ const display = (() => {
     };
 })();
 
+const calculator = (() => {
+    const add = (a, b) => a + b;
+    const sub = (a, b) => a - b;
+    const mul = (a, b) => a * b;
+    const div = (a, b) => a / b;
+    return {
+        add, sub, mul, div,
+    };
+})();
+
 function operate () {
     valueOne = argument.get();
     valueTwo = input.get();
     switch(operator.get()) {
         case 'add':
             result = calculator.add(valueOne, valueTwo);
-            display.set(result);
-            argument.replace(result);
             break;
         case 'subtract':
             result = calculator.sub(valueOne, valueTwo);
-            display.set(result);
-            argument.replace(result);
             break;
         case 'multiply':
             result = calculator.mul(valueOne, valueTwo);
-            display.set(result);
-            argument.replace(result);
             break;
         case 'divide':
             result = calculator.div(valueOne, valueTwo);
-            display.set(result);
-            argument.replace(result);
             break;
         default:
             display.err();
-    } 
+    }
+    display.set(result);
+    argument.replace(result);
 }
 
 function handleEvent(event) {
-
     switch(button.type(event)) {
         case 'equals':
             if (input.exists() && argument.exists()) {
@@ -106,8 +63,14 @@ function handleEvent(event) {
             }
             break;
         case 'digits':
-            input.set(button.value(event));
-            display.set(input.get());
+            if (argument.exists() && !operator.exists()) {
+                argument.clr();
+                input.set(button.value(event));
+                display.set(input.get());
+            } else {
+                input.set(button.value(event));
+                display.set(input.get());
+            }
             break;
         case 'operators':
             if (input.exists() && argument.exists()) {
@@ -133,3 +96,29 @@ function handleEvent(event) {
             display.err();
     }  
 }
+
+const argument = Template();
+const operator = Template();
+const input = (() => {
+    let input = [];
+    const get = () => Number(input.join(''));
+    const set = (value) => input.push(value);
+    const clr = () => input.splice(0);
+    const exists = () => input[0] ? true : false;
+    const replace = (value) => argument[0] = value;
+    return {
+        get, set, clr, exists, replace
+    };
+})();
+
+const button = (() => {
+    let button = document.querySelectorAll("button");
+    button.forEach((button) => {
+        button.addEventListener("click", handleEvent)
+    });
+    const type = (e) => e.target.parentElement.className;
+    const value = (e) => e.target.innerHTML;;
+    return {
+        type, value
+    }
+})();
