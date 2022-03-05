@@ -69,8 +69,8 @@ function handleEvent(event) {
         case 'operators':
             if (input.exists() && argument.exists()) {
                 operate();
-                operator.set(event.target.className);
                 input.clr();
+                operator.set(event.target.className);
             } else if (input.exists() && !argument.exists()) {
                 let newArgument = input.get();
                 argument.set(newArgument);
@@ -85,6 +85,7 @@ function handleEvent(event) {
             input.clr();
             argument.clr();
             display.clr();
+            operator.clr();
             break;
         default:
             display.err();
